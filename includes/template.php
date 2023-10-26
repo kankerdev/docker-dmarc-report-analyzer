@@ -174,7 +174,7 @@ function overview_bar($d_stats, $t_stats, $domain) {
     if ($domain == "all") {
       $domain_count = 0;
       foreach ($d_stats as $stat) {
-        $stat = array_map('htmlspecialchars',$stat);
+        $stat = htmlspecialchars_array($stat);
         $total = $total+$stat['total_messages'];
         if ($stat['none'] > 0)                { $dmarc_none = $dmarc_none+$stat['none']; }
         if ($stat['quarantine'] > 0)          { $dmarc_quar = $dmarc_quar+$stat['quarantine']; }
@@ -195,7 +195,7 @@ function overview_bar($d_stats, $t_stats, $domain) {
       }
     }
     else {
-      $d_stats[0]   = array_map('htmlspecialchars',$d_stats[0]);
+      $d_stats[0]   = htmlspecialchars_array($d_stats[0]);
   //    $total      = $d_stats[0]['total_messages'];
       $policy     = ucfirst($d_stats[0]['policy_p']);
       $policy_pct = $d_stats[0]['policy_pct'];
@@ -236,7 +236,7 @@ function overview_bar($d_stats, $t_stats, $domain) {
     $tls_total = 0;
 
     foreach ($t_stats as $stat) {
-      $stat = array_map('htmlspecialchars',$stat);
+      $stat = htmlspecialchars_array($stat);
       // this should pick up the latest policy mode
       if ($stat['policy_mode'] != '') { $tls_mode = $stat['policy_mode']; }
       if ($stat['summary_success'] > 0) { $tls_success = $tls_success+$stat['summary_success']; }
@@ -388,7 +388,7 @@ function domain_overview($d_stats, $t_stats, $dateRange) {
 
   // dmarc data processing
   foreach ($d_stats as $stat) {
-    $stat = array_map('htmlspecialchars',$stat);
+    $stat = htmlspecialchars_array($stat);
     $domain     = $stat['domain'];
 
     // extract stats
@@ -440,7 +440,7 @@ function domain_overview($d_stats, $t_stats, $dateRange) {
 
   // tls data processing
   foreach ($t_stats as $stat) {
-    $stat = array_map('htmlspecialchars',$stat);
+    $stat = htmlspecialchars_array($stat);
     $domain = $stat['domain'];
 
     // extract stats
@@ -582,7 +582,7 @@ function domain_details($d_stats, $t_stats, $domain, $dateRange) {
     echo "<br>";
     // do summations here
     foreach ($t_stats as $stat) {
-      $stat       = array_map('htmlspecialchars',$stat);
+      $stat       = htmlspecialchars_array($stat);
       if ($stat['recv_mx'] == '') { $stat['recv_mx'] = 'unknown'; }
       if (!isset($t_success[$stat['recv_mx']]) && !isset($t_failure[$stat['recv_mx']])) {
         $t_success[$stat['recv_mx']] = 0;
@@ -691,7 +691,7 @@ function domain_details($d_stats, $t_stats, $domain, $dateRange) {
 
         // extract stats - this'll be sorted by senderIP
         $ip         = get_ip($stat['ip'], $stat['ip6']);
-        $stat       = array_map('htmlspecialchars',$stat);
+        $stat       = htmlspecialchars_array($stat);
         $messages   = $stat['messages'];
         if ($stat['compliant'] > 0)  { $compliant  = $stat['compliant']; }
         if ($stat['none'] > 0)       { $none       = $stat['none']; }
@@ -869,7 +869,7 @@ function sender_details($geo_data, $stats, $domain, $dateRange, $ip) {
   }
   
   foreach ($stats as $stat) {
-    $stat       = array_map('htmlspecialchars',$stat);
+    $stat       = htmlspecialchars_array($stat);
     $dkimresult = $stat['dkimresult'] ?: 'unknown';
     $dkim_align = $stat['dkim_align'] ?: 'unknown';
     $spfresult  = $stat['spfresult']  ?: 'unknown';
@@ -912,7 +912,7 @@ function sender_details($geo_data, $stats, $domain, $dateRange, $ip) {
 function report_details($data, $report) {
 
   if ($data[0]['ip6'] != '') { $ip = $data[0]['ip6']; }
-  $data[0] = array_map('htmlspecialchars',$data[0]);
+  $data[0] = htmlspecialchars_array($data[0]);
   if ($data[0]['ip6'] != '') { $data[0]['ip6'] = $ip; }
 
   if ($data[0]['policy_adkim'] == 'r')      { $dkim_policy = 'Relaxed'; }
@@ -974,7 +974,7 @@ function report_details($data, $report) {
   
   foreach ($data as $row) {
     $ip         = get_ip($row['ip'],$row['ip6']);
-    $row        = array_map('htmlspecialchars',$row);
+    $row        = htmlspecialchars_array($row);
     $dkimresult = $row['dkimresult'] ?: 'unknown';
     $dkim_align = $row['dkim_align'] ?: 'unknown';
     $spfresult  = $row['spfresult']  ?: 'unknown';

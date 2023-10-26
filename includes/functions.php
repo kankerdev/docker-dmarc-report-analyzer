@@ -81,6 +81,14 @@ function getArg($arg,$default) {
   }
 }
 
+// Replacement for array_map('htmlspecialchars', $array)
+function htmlspecialchars_array($array) {
+  foreach ($array as $key => $value) {
+    $array[$key] = is_string($value) ? htmlspecialchars($value) : $value;
+  }
+  return $array;
+}
+
 // Page Functions -------------------------------------------------------------
 
 // Dashboard ------------------------------------
@@ -405,7 +413,7 @@ function getDomains($dateRange) {
   $domains = dbQuery($pdo, $statement, $params);
 
   foreach ($domains as $key => $domain) {
-    $domain = array_map('htmlspecialchars', $domain);
+    $domain = htmlspecialchars_array($domain);
     $domains[$key] = $domain;
   }
 

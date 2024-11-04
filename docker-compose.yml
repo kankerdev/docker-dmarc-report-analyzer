@@ -16,7 +16,7 @@ services:
       MARIADB_USER: dmarc
       MARIADB_PASSWORD: dmarc
   parser:
-    image: ghcr.io/userjack6880/open-report-parser:latest
+    image: ghcr.io/kankerdev/dmarc-report-parser:latest
     depends_on:
       mariadb:
         condition: service_healthy
@@ -38,7 +38,7 @@ services:
       IMAPDMARCERR: INBOX/Not Processed
       IMAPIGNOREERROR: 1
   analyzer:
-    image: ghcr.io/userjack6880/open-dmarc-analyzer:latest
+    image: ghcr.io/kankerdev/dmarc-report-analyzer:latest
     depends_on:
       mariadb:
         condition: service_healthy
